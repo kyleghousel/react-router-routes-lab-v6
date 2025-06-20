@@ -1,13 +1,28 @@
 import { useEffect, useState } from "react";
+import ActorCard from '../components/ActorCard'
+import NavBar from "../components/NavBar";
 
-function Actors() {
+const Actors = () => {
+  const [actors, setActors] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:4000/actors')
+      .then(res => res.json())
+      .then(actorsData => setActors(actorsData))
+  }, [])
+
+  const renderActors = actors.map((actor) => (
+    <ActorCard key={actor.id} id={actor.id} name={actor.name} movies={actor.movies} />
+  ))
+
   return (
     <>
       <header>
-        {/* What component should go here? */}
+        <NavBar />
       </header>
+      <h1>Actors Page</h1>
       <main>
-        {/* Actor info here! */}
+        {actors && renderActors}
       </main>
     </>
   );
